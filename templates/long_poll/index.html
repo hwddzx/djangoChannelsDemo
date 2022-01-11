@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .message {
+            height: 500px;
+            border: 1px solid #dddddd;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="message" id="message">
+
+</div>
+
+<div>
+    <input type="text" placeholder="请输入" id="send_message">
+    <input type="button" value="发送" onclick="sendMessage()">
+</div>
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+
+    function sendMessage() {
+        let message = $("#send_message").val()
+        $.ajax({
+            url: '/long_poll/message/',
+            type: 'POST',
+            data: {
+                message: message
+            },
+            success: function (res) {
+
+            }
+        })
+    }
+
+    function getMessage() {
+        $.ajax({
+            url: '/long_poll/message/',
+            data: {
+              uid: "{{ uid }}"
+            },
+            type: 'GET',
+            success: function (res) {
+                if (res.status) {
+                    let tag = $("<div>")
+                    tag.text(res.data)
+                    $("#message").append(tag)
+                }
+
+                // 再次获取数据
+                getMessage();
+            }
+        })
+    }
+
+    $(function () {
+        getMessage();
+    })
+
+</script>
+
+
+</body>
+</html>

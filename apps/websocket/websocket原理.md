@@ -1,0 +1,13 @@
+### websocket原理
+- http协议
+  - 连接
+  - 数据传输
+  - 断开
+- websocket协议是建立在http协议之上的
+  - 连接,客户端发起
+  - 握手(验证),客户端发送一个消息,后端接收到消息再做一些特殊处理并返回.服务器支持websocket协议.
+    - 客户端向服务器发送请求头, 请求头中含有Sec-WebSocket-Key
+    - 服务端接收, 将Sec-WebSocket-Key与magic string拼接并进行加密, 加密为hmac1 + base64, 之后将密文返回Sec-WebSocket-Accept
+  - 收发收据(加密)
+    - websocket解密
+  - 断开连接
